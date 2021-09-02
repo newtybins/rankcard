@@ -1,3 +1,3 @@
-# Collection
+# @ayanobot/rank-card
 
-Utility data structure used in Discord.js.
+Ayano's own Rank Card generator!

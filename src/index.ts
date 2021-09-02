@@ -17,7 +17,9 @@ const shorten = (text: string, len: number) => {
 };
 
 /**
- * A RankCard, as used by Ayano.
+ * A rank card, as used by Ayano!
+ * @class
+ * @public
  */
 export default class RankCard {
 	/**
@@ -27,7 +29,12 @@ export default class RankCard {
 	 */
 	private data: RankCard.CardData;
 
-	constructor(data: RankCard.Input) {
+	/**
+	 * Creates a new Rank Card!
+	 * @param {RankCard.Input} input The data for the rank card to initialise with
+	 * @returns {RankCard}
+	 */
+	constructor(input: RankCard.Input) {
 		const {
 			user: member,
 			xpForLevel: xpFor,
@@ -36,7 +43,7 @@ export default class RankCard {
 			fonts,
 			usernameLength,
 			stripAccents,
-		} = data;
+		} = input;
 
 		const parsedUsername = shorten(member.user.username, usernameLength ?? 15);
 
