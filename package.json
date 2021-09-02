@@ -7,8 +7,8 @@
 	"author": "newt! <newtykins@outlook.com>",
 	"license": "MIT",
 	"scripts": {
-		"docs": "docgen --source lib --custom docs/index.yml --output docs/docs.json",
-		"docs:test": "docgen --source lib --custom docs/index.yml",
+		"docs": "docgen --jsdoc jsdoc.json  --source lib --custom docs/index.yml --output docs/docs.json",
+		"docs:test": "docgen --jsdoc jsdoc.json  --source lib --custom docs/index.yml",
 		"stage": "npm run docs && git add ."
 	},
 	"dependencies": {
@@ -20,6 +20,7 @@
 	"devDependencies": {
 		"@discordjs/docgen": "^0.10.0",
 		"@types/node": "^16.7.10",
+		"jsdoc-plugin-intersection": "^1.0.4",
 		"pre-commit": "^1.2.2",
 		"typescript": "^4.4.2"
 	},

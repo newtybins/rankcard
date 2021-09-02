@@ -1041,6 +1041,11 @@ jsdoc-parse@^4.0.1:
     sort-array "^2.0.0"
     test-value "^3.0.0"
 
+jsdoc-plugin-intersection@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/jsdoc-plugin-intersection/-/jsdoc-plugin-intersection-1.0.4.tgz#32ffe7f74df30ed1e86272c272856e0fd9aa9451"
+  integrity sha512-5OGv+aWpp0pYRMnhaUeqijesIi/xD2z8IIwIlK+JsQ0sXzMjiWT2YgNSvxcd476pRdh70Xmby/l7GD3NkWcKcQ==
+
 jsdoc-to-markdown@^5.0.1:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/jsdoc-to-markdown/-/jsdoc-to-markdown-5.0.3.tgz#32cdd8683609141199b42a5b7045d91647a5758b"
