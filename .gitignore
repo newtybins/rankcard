@@ -1,0 +1,8 @@
+node_modules
+build
+.env
+_*
+dist
+lavalink
+logs
+yarn-error.log
