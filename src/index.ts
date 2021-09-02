@@ -2,6 +2,7 @@ import { GuildMember, PresenceStatus } from 'discord.js';
 import * as Canvas from 'canvas';
 import abbreviate from 'number-abbreviate';
 import accents from 'accents';
+import path from 'path';
 
 const STATUS_COLOURS = {
 	online: '#43b581',
@@ -83,6 +84,10 @@ export default class RankCard {
 					weight: font.weight,
 					style: font.style,
 				});
+			});
+		} else {
+			Canvas.registerFont(path.join(__dirname, '..', 'assets', 'lyons.ttf'), {
+				family: 'Lyons',
 			});
 		}
 
@@ -261,11 +266,11 @@ export default class RankCard {
 
 	/**
 	 * Builds the rank card!
-	 * @param {BuildFonts} fonts The fonts to build the card with
+	 * @param {BuildFonts} [fonts] The fonts to build the card with
 	 * @returns {Promise<Buffer>}
 	 * @async
 	 */
-	public async build(fonts: BuildFonts): Promise<Buffer> {
+	public async build(fonts: BuildFonts = { bold: 'Lyons', regular: 'Lyons' }): Promise<Buffer> {
 		// Create an instance of Canvas
 		const canvas = Canvas.createCanvas(this.data.width, this.data.height);
 		const ctx = canvas.getContext('2d');
