@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="https://github.com/ayanobot/rankcard/raw/main/RankCard.png">
+	<img src="https://github.com/ayanobot/rankcard/raw/main/RankCard.png"><br>
 	<sub>An example using the default settings provided by the library!</sub>
 	<h1>@ayanobot/rankcard</h1>
 	<code>npm i @ayanobot/rankcard</code> 

@@ -36,43 +36,52 @@ interface Piece<T> extends PartialPiece<T> {
 	displayText: string;
 }
 
+interface Placement {
+	x: number;
+	y: number;
+	height: number;
+	width: number;
+}
+
+export interface Background {
+	type: BackgroundType;
+	value: string | Buffer;
+}
+
+export interface ProgressBar extends Placement {
+	rounded: boolean;
+	trackColour: string;
+	barColour: {
+		type: ProgressType;
+		value: string | string[];
+	}
+}
+
+export interface Avatar extends Placement {
+	source: string | Buffer;
+}
+
+export interface Status {
+	width: number;
+	type: PresenceStatus;
+	colour: string;
+	circle: boolean;
+}
+
+export interface Overlay {
+	display: boolean;
+	alpha: number;
+	colour: string;
+}
+
 export interface CardData {
 	width: number;
 	height: number;
-	background: {
-		type: BackgroundType;
-		value: string | Buffer;
-	};
-	progressBar: {
-		rounded: boolean;
-		x: number;
-		y: number;
-		height: number;
-		width: number;
-		trackColour: string;
-		barColour: {
-			type: ProgressType;
-			value: string | string[];
-		};
-	};
-	avatar: {
-		source: string | Buffer;
-		x: number;
-		y: number;
-		height: number;
-		width: number;
-	};
-	status: {
-		width: number;
-		type: PresenceStatus;
-		colour: string;
-		circle: boolean;
-	};
-	overlay: {
-		display: boolean;
-		level: number;
-		colour: string;
-	};
+	background: Background;
+	progressBar: ProgressBar;
+	avatar: Avatar;
+	status: Status;
+	overlay: Overlay;
 	rank: Piece<number>;
 	level: Piece<number>;
 	currentXP: PartialPiece<number>;
