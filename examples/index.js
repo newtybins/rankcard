@@ -1,4 +1,4 @@
-const { RankCard } = require('../lib/index');
+const { RankCard } = require('@ayanobot/rankcard');
 const Discord = require('discord.js');
 const { users: DB } = require('./db.json');
 

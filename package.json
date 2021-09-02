@@ -1,5 +1,6 @@
 {
-	"name": "rankcard",
+	"name": "@ayanobot/rankcard",
+	"description": "Ayano's own Rank Card generator! (:",
 	"version": "1.0.0",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
@@ -27,5 +28,13 @@
 	"precommit": [
 		"docs",
 		"stage"
+	],
+	"keywords": [
+		"ayano",
+		"bot",
+		"discord",
+		"canvas",
+		"image",
+		"level"
 	]
 }
