@@ -1,34 +1,30 @@
 {
 	"name": "rankcard",
 	"version": "1.0.0",
-	"main": "index.js",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
 	"repository": "https://github.com/ayanobot/rankcard.git",
 	"author": "newt! <newtykins@outlook.com>",
 	"license": "MIT",
 	"scripts": {
-		"build": "tsc",
-		"docs": "docgen --jsdoc jsdoc.json --source src/*.ts src/**/*.ts --custom docs/index.yml --output docs/docs.json",
-		"docs:test": "docgen --jsdoc jsdoc.json --source src/*.ts src/**/*.ts --custom docs/index.yml",
-		"docs:commit": "npm run docs && git add ."
+		"docs": "docgen --source lib --custom docs/index.yml --output docs/docs.json",
+		"docs:test": "docgen --source lib --custom docs/index.yml",
+		"stage": "npm run docs && git add ."
 	},
 	"dependencies": {
 		"accents": "^1.0.2",
 		"canvas": "^2.8.0",
 		"discord.js": "^13.1.0",
-		"discord.js-docgen": "discordjs/docgen#ts-patch",
 		"number-abbreviate": "^2.0.0"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.14.8",
-		"@babel/core": "^7.15.0",
-		"@babel/preset-env": "^7.15.0",
-		"@babel/preset-typescript": "^7.15.0",
+		"@discordjs/docgen": "^0.10.0",
 		"@types/node": "^16.7.10",
-		"jsdoc-babel": "^0.5.0",
 		"pre-commit": "^1.2.2",
 		"typescript": "^4.4.2"
 	},
 	"precommit": [
-		"docs:commit"
+		"docs",
+		"stage"
 	]
 }
