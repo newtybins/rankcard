@@ -27,14 +27,42 @@ export default class RankCard {
 	 * @type {CanvacordRankData}
 	 * @private
 	 */
-	private data: RankCard.CardData;
+	private data: CardData;
+
+	/**
+	 * Calculates the amount of XP for a level.
+	 * @callback XPForLevel
+	 * @param {number} level The level to calculate the amount of XP for
+	 * @returns {number} The amount of XP required for the provided level
+	 */
+
+	/**
+	 * A font to register with Canvas for usage during building.
+	 * @typedef {Object} Font
+	 * @property {string} path The path to the font file
+	 * @property {string} family The name of the font family to register it under
+	 * @property {string} [weight] The weight of the font
+	 * @property {string} [style] The style of the font
+	 */
+
+	/**
+	 * Input to generate the Rank Card with.
+	 * @typedef {Object} Input
+	 * @property {number} level The level of the user the rank card is being generated for
+	 * @property {XPForLevel} xpForLevel A function that calculates the amount of XP per level
+	 * @property {GuildMember} user The user to generate the rank card for
+	 * @property {number} [rank] The rank of the user
+	 * @property {Font[]} [fonts] The fonts to register for usage during building
+	 * @property {number} [usernameLength] The length to shorten the username to
+	 * @property {boolean} [stripAccents] Whether accents should be stripped from the username or not
+	 */
 
 	/**
 	 * Creates a new Rank Card!
-	 * @param {RankCard.Input} input The data for the rank card to initialise with
+	 * @param {Input} input The data for the rank card to initialise with
 	 * @returns {RankCard}
 	 */
-	constructor(input: RankCard.Input) {
+	constructor(input: Input) {
 		const {
 			user: member,
 			xpForLevel: xpFor,
@@ -154,12 +182,19 @@ export default class RankCard {
 	}
 
 	/**
+	 * Supported background types. This can be:
+	 * * 'image'
+	 * * 'colour'
+	 * @typedef {string} BackgroundType
+	 */
+
+	/**
 	 * Sets the background of the rank card!
-	 * @param {RankCard.BackgroundType} type The type of the input
+	 * @param {BackgroundType} type The type of the input
 	 * @param {string | Buffer} value The inputted value
 	 * @returns {RankCard}
 	 */
-	public setBackground<T extends RankCard.BackgroundType>(
+	public setBackground<T extends BackgroundType>(
 		type: T,
 		value: T extends 'colour' ? string : Buffer
 	): RankCard {
@@ -183,13 +218,20 @@ export default class RankCard {
 	}
 
 	/**
+	 * Supported background types. This can be:
+	 * * 'gradient'
+	 * * 'colour'
+	 * @typedef {string} ProgressType
+	 */
+
+	/**
 	 * Updates data about the progress bar's style!
-	 * @param {RankCard.ProgressType} type The type of the input
+	 * @param {ProgressType} type The type of the input
 	 * @param {string | string[]} value The inputted value
 	 * @param {boolean} [rounded] Whether the progress bar should be rounded or not
 	 * @returns {RankCard}
 	 */
-	public setProgressBar<T extends RankCard.ProgressType>(
+	public setProgressBar<T extends ProgressType>(
 		type: T,
 		value: T extends 'colour' ? string : string[],
 		rounded: boolean = true
@@ -211,12 +253,19 @@ export default class RankCard {
 	}
 
 	/**
+	 * Fonts provided when building to customise rank cards.
+	 * @typedef {Object} BuildFonts
+	 * @property {string} bold The font to use for bold text
+	 * @property {string} regular The font to use for regular text
+	 */
+
+	/**
 	 * Builds the rank card!
-	 * @param {RankCard.BuildFonts} fonts The fonts to build the card with
+	 * @param {BuildFonts} fonts The fonts to build the card with
 	 * @returns {Promise<Buffer>}
 	 * @async
 	 */
-	public async build(fonts: RankCard.BuildFonts): Promise<Buffer> {
+	public async build(fonts: BuildFonts): Promise<Buffer> {
 		// Create an instance of Canvas
 		const canvas = Canvas.createCanvas(this.data.width, this.data.height);
 		const ctx = canvas.getContext('2d');
@@ -370,87 +419,85 @@ export default class RankCard {
 	}
 }
 
-export namespace RankCard {
-	export type BackgroundType = 'image' | 'colour';
-	export type ProgressType = 'gradient' | 'colour';
+export type ProgressType = 'gradient' | 'colour';
+export type BackgroundType = 'image' | 'colour';
 
-	export interface BuildFonts {
-		bold: string;
-		regular: string;
-	}
+export interface BuildFonts {
+	bold: string;
+	regular: string;
+}
 
-	export interface Input {
-		level: number;
-		xpForLevel: (level: number) => number;
-		user: GuildMember;
-		rank?: number;
-		fonts?: Font[];
-		usernameLength?: number;
-		stripAccents?: boolean;
-	}
+export interface Font {
+	path: string;
+	family: string;
+	weight?: string;
+	style?: string;
+}
 
-	export interface Font {
-		path: string;
-		family: string;
-		weight?: string;
-		style?: string;
-	}
+export interface Input {
+	level: number;
+	xpForLevel: (level: number) => number;
+	user: GuildMember;
+	rank?: number;
+	fonts?: Font[];
+	usernameLength?: number;
+	stripAccents?: boolean;
+}
 
-	interface PartialPiece<K> {
-		data: K;
-		colour: string;
-		size: number;
-	}
+interface PartialPiece<K> {
+	data: K;
+	colour: string;
+	size: number;
+}
 
-	interface Piece<K> extends PartialPiece<K> {
-		display: boolean;
-		displayText: string;
-	}
+interface Piece<K> extends PartialPiece<K> {
+	display: boolean;
+	displayText: string;
+}
 
-	export interface CardData {
-		width: number;
+export interface CardData {
+	width: number;
+	height: number;
+	background: {
+		type: BackgroundType;
+		value: string | Buffer;
+	};
+	progressBar: {
+		rounded: boolean;
+		x: number;
+		y: number;
 		height: number;
-		background: {
-			type: BackgroundType;
-			value: string | Buffer;
-		};
-		progressBar: {
-			rounded: boolean;
-			x: number;
-			y: number;
-			height: number;
-			width: number;
-			track: {
-				colour: string;
-			};
-			bar: {
-				type: ProgressType;
-				value: string | string[];
-			};
-		};
-		avatar: {
-			source: string | Buffer;
-			x: number;
-			y: number;
-			height: number;
-			width: number;
-		};
-		status: {
-			width: number;
-			type: PresenceStatus;
-			colour: string;
-			circle: boolean;
-		};
-		overlay: {
-			display: boolean;
-			level: number;
+		width: number;
+		track: {
 			colour: string;
 		};
-		rank: Piece<number>;
-		level: Piece<number>;
-		currentXP: PartialPiece<number>;
-		requiredXP: PartialPiece<number>;
-		discriminator: PartialPiece<string>;
-		username: PartialPiece<string>;
-	}
+		bar: {
+			type: ProgressType;
+			value: string | string[];
+		};
+	};
+	avatar: {
+		source: string | Buffer;
+		x: number;
+		y: number;
+		height: number;
+		width: number;
+	};
+	status: {
+		width: number;
+		type: PresenceStatus;
+		colour: string;
+		circle: boolean;
+	};
+	overlay: {
+		display: boolean;
+		level: number;
+		colour: string;
+	};
+	rank: Piece<number>;
+	level: Piece<number>;
+	currentXP: PartialPiece<number>;
+	requiredXP: PartialPiece<number>;
+	discriminator: PartialPiece<string>;
+	username: PartialPiece<string>;
 }
