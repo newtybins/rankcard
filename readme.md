@@ -1,4 +1,4 @@
-# @ayanobot/rank-card
+# @ayanobot/rankcard
 
 Ayano's own Rank Card generator!
 
@@ -6,4 +6,4 @@ Ayano's own Rank Card generator!
 
 The default font is currently Lyons Rounded. This most likely will change before release.
 
-![](RankCard.png)
+<img src="https://github.com/ayanobot/rankcard/raw/main/RankCard.png">
