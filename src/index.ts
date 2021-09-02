@@ -16,7 +16,15 @@ const shorten = (text: string, len: number) => {
 	return `${text.substr(0, len).trim()}...`;
 };
 
+/**
+ * A RankCard, as used by Ayano.
+ */
 export default class RankCard {
+	/**
+	 * Rank card data
+	 * @type {CanvacordRankData}
+	 * @private
+	 */
 	private data: RankCard.CardData;
 
 	constructor(data: RankCard.Input) {
@@ -123,8 +131,9 @@ export default class RankCard {
 	/**
 	 * Calculates the progress the progress bar should be at
 	 * @private
+	 * @returns {number}
 	 */
-	private get calculateProgress() {
+	private calculateProgress(): number {
 		const cx = this.data.currentXP.data as number;
 		const rx = this.data.requiredXP.data as number;
 
@@ -139,24 +148,27 @@ export default class RankCard {
 
 	/**
 	 * Sets the background of the rank card!
-	 * @param type The type of the input
-	 * @param value The inputted value
+	 * @param {RankCard.BackgroundType} type The type of the input
+	 * @param {string | Buffer} value The inputted value
+	 * @returns {RankCard}
 	 */
-	setBackground<T extends RankCard.BackgroundType>(
+	public setBackground<T extends RankCard.BackgroundType>(
 		type: T,
 		value: T extends 'colour' ? string : Buffer
-	) {
+	): RankCard {
 		this.data.background.type = type;
 		this.data.background.value = value;
+		return this;
 	}
 
 	/**
 	 * Sets the overlay of the rank card!
-	 * @param colour The colour to make the overlay
-	 * @param [level] The level to make the overlay
-	 * @param [display] Whether the overlay should be displayed anymore
+	 * @param {string} colour The colour to make the overlay
+	 * @param {number} [level] The level to make the overlay
+	 * @param {boolean} [display] Whether the overlay should be displayed anymore
+	 * @returns {RankCard}
 	 */
-	setOverlay(colour: string, level = 0.5, display = true) {
+	public setOverlay(colour: string, level: number = 0.5, display: boolean = true): RankCard {
 		this.data.overlay.colour = colour;
 		this.data.overlay.display = display;
 		this.data.overlay.level = level;
@@ -165,15 +177,16 @@ export default class RankCard {
 
 	/**
 	 * Updates data about the progress bar's style!
-	 * @param type The type of the input
-	 * @param value The inputted value
-	 * @param [rounded] Whether the progress bar should be rounded or not
+	 * @param {RankCard.ProgressType} type The type of the input
+	 * @param {string | string[]} value The inputted value
+	 * @param {boolean} [rounded] Whether the progress bar should be rounded or not
+	 * @returns {RankCard}
 	 */
-	setProgressBar<T extends RankCard.ProgressType>(
+	public setProgressBar<T extends RankCard.ProgressType>(
 		type: T,
 		value: T extends 'colour' ? string : string[],
-		rounded = true
-	) {
+		rounded: boolean = true
+	): RankCard {
 		this.data.progressBar.bar.type = type;
 		this.data.progressBar.bar.value = value;
 		this.data.progressBar.rounded = rounded;
@@ -182,14 +195,21 @@ export default class RankCard {
 
 	/**
 	 * Update the progress bar's track colour!
-	 * @param colour The colour to make the progress bar track!
+	 * @param {string} colour The colour to make the progress bar track!
+	 * @returns {RankCard}
 	 */
-	setProgressBarTrack(colour: string) {
+	public setProgressBarTrack(colour: string): RankCard {
 		this.data.progressBar.track.colour = colour;
 		return this;
 	}
 
-	async build(fonts: { bold: string; regular: string }) {
+	/**
+	 * Builds the rank card!
+	 * @param {RankCard.BuildFonts} fonts The fonts to build the card with
+	 * @returns {Promise<Buffer>}
+	 * @async
+	 */
+	public async build(fonts: RankCard.BuildFonts): Promise<Buffer> {
 		// Create an instance of Canvas
 		const canvas = Canvas.createCanvas(this.data.width, this.data.height);
 		const ctx = canvas.getContext('2d');
@@ -265,7 +285,7 @@ export default class RankCard {
 
 		if (this.data.progressBar.bar.type === 'gradient') {
 			// @ts-ignore
-			const gradientContext = ctx.createRadialGradient(this.calculateProgress, 0, 500, 0);
+			const gradientContext = ctx.createRadialGradient(this.calculateProgress(), 0, 500, 0);
 			(this.data.progressBar.bar.value as string[]).forEach((colour, i) =>
 				gradientContext.addColorStop(i, colour)
 			);
@@ -292,8 +312,8 @@ export default class RankCard {
 			ctx.fillStyle = barColour;
 			ctx.arc(275.5, 202.25, 18.5, 1.5 * Math.PI, 0.5 * Math.PI, true);
 			ctx.fill();
-			ctx.fillRect(275.5, 183.75, this.calculateProgress, 37.5);
-			ctx.arc(275.5 + this.calculateProgress, 202.25, 18.75, 1.5 * Math.PI, 0.5 * Math.PI, false);
+			ctx.fillRect(275.5, 183.75, this.calculateProgress(), 37.5);
+			ctx.arc(275.5 + this.calculateProgress(), 202.25, 18.75, 1.5 * Math.PI, 0.5 * Math.PI, false);
 			ctx.fill();
 		} else {
 			// Draw the bar
@@ -301,7 +321,7 @@ export default class RankCard {
 			ctx.fillRect(
 				this.data.progressBar.x,
 				this.data.progressBar.y,
-				this.calculateProgress,
+				this.calculateProgress(),
 				this.data.progressBar.height
 			);
 
@@ -346,6 +366,11 @@ export default class RankCard {
 export namespace RankCard {
 	export type BackgroundType = 'image' | 'colour';
 	export type ProgressType = 'gradient' | 'colour';
+
+	export interface BuildFonts {
+		bold: string;
+		regular: string;
+	}
 
 	export interface Input {
 		level: number;
