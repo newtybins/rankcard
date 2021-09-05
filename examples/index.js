@@ -15,9 +15,11 @@ client.login('your-super-secret-token');
 client.on('ready', () => console.log('I have connected to Discord!'));
 
 client.on('messageCreate', async msg => {
-	if (msg.content === '!rank') {
+	if (msg.content.startsWith('!rank')) {
+		const member = msg.mentions.members.first() ?? msg.member;
+
 		// Ensure the user is in our mock-up DB
-		const userInDB = DB.filter(u => u.id === msg.author.id)[0];
+		const userInDB = DB.filter(u => u.id === member.user.id)[0];
 
 		if (userInDB) {
 			const rank = DB.sort((a, b) => a.level + b.level).map(u => u.id).indexOf(userInDB.id) + 1;
@@ -26,19 +28,9 @@ client.on('messageCreate', async msg => {
 			const card = new RankCard({
 				level: userInDB.level,
 				xpForLevel,
-				user: msg.member,
+				user: member,
 				rank
 			});
-
-			// Really ugly example, but shows all of the customisation options that rankcard has to offer
-			card
-				.toggleDisplay('avatar', 'status')
-				.setProgress('red', 40)
-				.setProgressBar({ type: 'colour', value: 'yellow' }, 'blue')
-				.setOverlay('green', 1)
-				.setLevel('yellow', 20)
-				.setRank('yellow', 10)
-				.setTag('purple', 30);
 
 			// Build it
 			card.build().then(res => {

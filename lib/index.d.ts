@@ -26,15 +26,8 @@ export interface InputData {
 	stripAccents?: boolean;
 }
 
-interface Placement {
-	x: number;
-	y: number;
-	height: number;
-	width: number;
-}
 
-
-interface Piece<T> extends Placement {
+interface Piece<T> {
 	value: T;
 	fontColour: string;
 	fontSize: number;
@@ -57,7 +50,7 @@ interface ProgressBar {
 	colour: BarColour;
 }
 
-export interface Progress extends Placement {
+export interface Progress {
 	display: boolean;
 	currentXP: number;
 	requiredXP: number;
@@ -80,7 +73,7 @@ export interface Overlay {
 	colour: string;
 }
 
-interface Avatar extends Placement {
+interface Avatar {
 	value: string | Buffer;
 	display: boolean;
 }
