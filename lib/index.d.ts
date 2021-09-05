@@ -2,6 +2,7 @@ import { GuildMember, PresenceStatus } from 'discord.js';
 
 type ProgressType = 'gradient' | 'colour';
 type BackgroundType = 'image' | 'colour';
+type Pieces = 'progress' | 'avatar' | 'status' | 'overlay' | 'level' | 'rank' | 'tag';
 
 export interface BuildFonts {
 	bold: string;
@@ -25,17 +26,6 @@ export interface InputData {
 	stripAccents?: boolean;
 }
 
-interface PartialPiece<T> {
-	data: T;
-	colour: string;
-	size: number;
-}
-
-interface Piece<T> extends PartialPiece<T> {
-	display: boolean;
-	displayText: string;
-}
-
 interface Placement {
 	x: number;
 	y: number;
@@ -43,25 +33,41 @@ interface Placement {
 	width: number;
 }
 
+
+interface Piece<T> extends Placement {
+	value: T;
+	fontColour: string;
+	fontSize: number;
+	display: boolean;
+}
+
 export interface Background {
 	type: BackgroundType;
 	value: string | Buffer;
 }
 
-export interface ProgressBar extends Placement {
-	rounded: boolean;
-	trackColour: string;
-	barColour: {
-		type: ProgressType;
-		value: string | string[];
-	}
+interface BarColour {
+	type: ProgressType;
+	value: string | string[];
 }
 
-export interface Avatar extends Placement {
-	source: string | Buffer;
+interface ProgressBar {
+	rounded: boolean;
+	trackColour: string;
+	colour: BarColour;
+}
+
+export interface Progress extends Placement {
+	display: boolean;
+	currentXP: number;
+	requiredXP: number;
+	fontSize: number;
+	fontColour: string;
+	bar: ProgressBar;
 }
 
 export interface Status {
+	display: boolean;
 	width: number;
 	type: PresenceStatus;
 	colour: string;
@@ -70,24 +76,34 @@ export interface Status {
 
 export interface Overlay {
 	display: boolean;
-	alpha: number;
+	opacity: number;
 	colour: string;
+}
+
+interface Avatar extends Placement {
+	value: string | Buffer;
+	display: boolean;
+}
+
+interface Tag {
+	display: boolean;
+	fontSize: number;
+	fontColour: string;	
+	username: string;
+	discriminator: string | number;
 }
 
 export interface CardData {
 	width: number;
 	height: number;
 	background: Background;
-	progressBar: ProgressBar;
+	progress: Progress;
 	avatar: Avatar;
 	status: Status;
 	overlay: Overlay;
-	rank: Piece<number>;
 	level: Piece<number>;
-	currentXP: PartialPiece<number>;
-	requiredXP: PartialPiece<number>;
-	discriminator: PartialPiece<string>;
-	username: PartialPiece<string>;
+	rank: Piece<number>;
+	tag: Tag;
 }
 
 export class RankCard {
@@ -96,9 +112,14 @@ export class RankCard {
 	private _data: CardData;
 	private _calculateProgress(): number;
 
-	setBackground<T extends BackgroundType>(type: T, value: T extends 'colour' ? string : Buffer): RankCard;
-	setOverlay(colour: string, level?: number, display?: boolean): RankCard;
-	setProgressBar<T extends ProgressType>(type: T, value: T extends 'colour' ? string : string[], rounded?: boolean): RankCard;
-	setProgressBarTrack(colour: string): RankCard;
+	toggleDisplay(...pieces: Pieces[]): RankCard;
+	setProgress(fontColour: string, fontSize?: number): RankCard;
+	setProgressBar(colour: BarColour, trackColour?: string, rounded?: boolean): RankCard;
+	setStatus(circle: boolean): RankCard;
+	setOverlay(colour: string, opacity?: number): RankCard;
+	setLevel(fontColour: string, fontSize?: number): RankCard;	
+	setRank(fontColour: string, fontSize?: number): RankCard;
+	setTag(fontColour: string, fontSize?: number): RankCard;
+
 	build(fonts?: BuildFonts): Promise<Buffer>;
 }

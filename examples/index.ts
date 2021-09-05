@@ -30,6 +30,16 @@ client.on('messageCreate', async msg => {
 				rank
 			});
 
+			// Really ugly example, but shows all of the customisation options that rankcard has to offer
+			card
+				.toggleDisplay('avatar', 'status')
+				.setProgress('red', 40)
+				.setProgressBar({ type: 'colour', value: 'yellow' }, 'blue')
+				.setOverlay('green', 1)
+				.setLevel('yellow', 20)
+				.setRank('yellow', 10)
+				.setTag('purple', 30);
+
 			// Build it
 			card.build().then(res => {
 				const attachment = new MessageAttachment(res);

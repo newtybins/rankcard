@@ -1,4 +1,4 @@
-const { RankCard } = require('@ayanobot/rankcard');
+const { RankCard } = require('../lib/index');
 const Discord = require('discord.js');
 const { users: DB } = require('./db.json');
 
@@ -29,6 +29,16 @@ client.on('messageCreate', async msg => {
 				user: msg.member,
 				rank
 			});
+
+			// Really ugly example, but shows all of the customisation options that rankcard has to offer
+			card
+				.toggleDisplay('avatar', 'status')
+				.setProgress('red', 40)
+				.setProgressBar({ type: 'colour', value: 'yellow' }, 'blue')
+				.setOverlay('green', 1)
+				.setLevel('yellow', 20)
+				.setRank('yellow', 10)
+				.setTag('purple', 30);
 
 			// Build it
 			card.build().then(res => {
