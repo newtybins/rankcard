@@ -14,6 +14,8 @@ The default font is currently Neutra Text Bold - [Discord.js](https://discord.js
 
 ### To-do
 
-- [ ] Eris Support
-- [ ] More helper methods
-- [ ] More customisation
+-   [ ] Eris Support
+-   [ ] More helper methods
+-   [ ] More customisation
+
+<sub>View the license <a href="license.md">here</a>.</sub>
