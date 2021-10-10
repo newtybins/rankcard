@@ -1,6 +1,6 @@
-src
 examples
 docs
-RankCard.png
+example.png
 .env
 .github
+.husky
