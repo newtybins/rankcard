@@ -6,3 +6,9 @@ dist
 lavalink
 logs
 yarn-error.log
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
+docker.env

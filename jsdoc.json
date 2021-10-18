@@ -1,5 +1,21 @@
 {
-	"plugins": [
-		"jsdoc-plugin-intersection"
-	]
+    "source": {
+        "includePattern": ".+\\.ts(doc|x)?$"
+    },
+    "plugins": ["jsdoc-babel", "jsdoc-plugin-intersection"],
+    "babel": {
+        "extensions": ["ts"],
+        "babelrc": false,
+        "presets": [
+            [
+                "@babel/preset-env",
+                {
+                    "targets": {
+                        "node": true
+                    }
+                }
+            ],
+            "@babel/preset-typescript"
+        ]
+    }
 }

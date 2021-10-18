@@ -4,3 +4,9 @@ example.png
 .env
 .github
 .husky
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
+docker.env
