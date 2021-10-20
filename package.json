@@ -11,7 +11,8 @@
         "build": "gulp build",
         "docs": "docgen --jsdoc jsdoc.json --source src/**/*.ts --custom docs/index.yml --output docs/docs.json",
         "docs:test": "docgen --jsdoc jsdoc.json --source src/**/*.ts --custom docs/index.yml",
-        "prepare": "husky install && npm run build"
+        "prepare": "husky install && npm run build",
+        "prepack": "husky install && npm run build"
     },
     "dependencies": {
         "accents": "^1.0.2",
