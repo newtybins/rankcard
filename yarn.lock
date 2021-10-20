@@ -29,7 +29,6 @@ __metadata:
     gulp-uglify: ^3.0.2
     husky: ^7.0.2
     jsdoc-babel: ^0.5.0
-    jsdoc-plugin-intersection: ^1.0.4
     number-abbreviate: ^2.0.0
     rimraf: ^3.0.2
     typescript: ^4.4.3
@@ -4603,13 +4602,6 @@ fsevents@~2.3.2:
     sort-array: ^2.0.0
     test-value: ^3.0.0
   checksum: 748c6dcd7d315ba9ec0372db957ee2840086bcfeaeeaca91a71d97273aa9bcd86750fbaad1f9d117f9302145ccf18432137ecebd6f0a66c794831c017c184a00
-  languageName: node
-  linkType: hard
-
-"jsdoc-plugin-intersection@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "jsdoc-plugin-intersection@npm:1.0.4"
-  checksum: 42bce163327a2595d1a2a48ee60068ce19fe1ad6744c91dbe1c51e2924903d0a7f39a460f77da4ddfb76106b23b0ee816f23e476b90dc853d806f7af05779e2a
   languageName: node
   linkType: hard
 

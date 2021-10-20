@@ -83,6 +83,7 @@ export interface CardData {
 /**
  * The rank card generator.
  * @class
+ * @public
  */
 class CardGenerator {
     private config: GeneratorConfig;
@@ -131,8 +132,9 @@ class CardGenerator {
     /**
      * Renders a rank card with the given data
      * @param {CardData} data Data to populate the card with
-     * @param {string} font The font to use while rendering the card
+     * @param {string} [font='Neutra'] The font to use while rendering the card
      * @returns {Promise<MessageAttachment>}
+     * @async
      */
     async generateCard(data: CardData, font: string = 'Neutra'): Promise<MessageAttachment> {
         const card = new RankCard({

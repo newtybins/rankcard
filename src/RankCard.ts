@@ -196,6 +196,7 @@ interface CardConfig extends CardData {
 /**
  * A rank card, as used by Ayano!
  * @class
+ * @public
  */
 export default class RankCard {
     private width: number = 932;
@@ -297,8 +298,8 @@ export default class RankCard {
 
     /**
      * Calculates the progress the progress bar should be at
-     * @private
      * @returns {number}
+     * @private
      */
     private calculateProgress(): number {
         return (this.progress.currentXP / this.progress.requiredXP) * this.progress.width;

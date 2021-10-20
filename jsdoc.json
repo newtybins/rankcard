@@ -2,7 +2,7 @@
     "source": {
         "includePattern": ".+\\.ts(doc|x)?$"
     },
-    "plugins": ["jsdoc-babel", "jsdoc-plugin-intersection"],
+    "plugins": ["jsdoc-babel"],
     "babel": {
         "extensions": ["ts"],
         "babelrc": false,
